@@ -35,11 +35,11 @@ var Utils = {
 
 	/**
 	 * Filters out IP from a string
-	 * @param  {string} str     - The string that contains the IP
-	 * @param  {string} replace - The string you wish to replace with the IP
+	 * @param  {string} haystack - The string that contains the IP
+	 * @param  {string} replace  - The string you wish to replace with the IP
 	 * @return {string}
 	 */
-	filterIP: function(str, replace)
+	filterIP: function(haystack, replace)
 	{
 		return str.replace(/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/, replace);
 	},
