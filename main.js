@@ -1,5 +1,16 @@
+/*==============================================================================================*\
+|* Includes
+\*==============================================================================================*/
 include('/var/cod4server/scripts/utils.js');
 include('/var/cod4server/scripts/commands.js');
+
+include('/var/cod4server/scripts/player.js');
+
+/*==============================================================================================*\
+|* Global Variables
+\*==============================================================================================*/
+var players = [];
+
 
 function onStatusRequest()
 {
@@ -23,7 +34,7 @@ function onPlayerJoinRequest(ip)
 
 function onPlayerSay(playerID, message)
 {
-	var player = getPlayerByID(playerID);
+	var player = players[i].native;
 
 	// Attempt an execution of a registered command
 	var cmdResult = bang.execute(playerID, message);
@@ -47,4 +58,13 @@ function onPlayerSay(playerID, message)
 function onScriptColdBoot()
 {
 	sendMessageToAll("^1Cold boot completed successfully");
+}
+
+function onServerInit()
+{
+	// Full out the players array with all the players
+	for(var i=getMaxClients() - 1; i>=0; i--)
+		players.push(new Player(i));
+
+	players[i].setStatus();
 }
