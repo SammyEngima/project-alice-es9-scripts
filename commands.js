@@ -15,7 +15,7 @@ bang.regCommand("ping", null, 0, cmdPing);
 
 // Commands requiring permissions
 bang.regCommand("kick", "kick", 2, cmdKick);
-bang.regCommand("mute", "mute", 2, cmdMute);
+bang.regCommand("mute", null, 2, cmdMute);
 bang.regCommand("map", "map_change", 1, cmdLoadMap);
 bang.regCommand("resetmap", "map_reset", 1, cmdResetMap);
 bang.regCommand("maps", "map_list", 0, cmdListMaps);
@@ -72,8 +72,7 @@ function cmdMute(playerID, args)
 		executor.sendMessage(usageMsg);
 	else
 	{
-		var targetPlayer = getPlayerByID(args[1]);
-		targetPlayer.kick(args[2]);
+		players[args[1]].setSessionData('muted', true);
 	}
 }
 

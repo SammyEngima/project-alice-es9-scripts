@@ -1,10 +1,9 @@
 function Player(slotID) {
 	
 	this.native = getPlayerByID(slotID);
-	this.data   = {};
-
-	// Data only lasts for as long as the player is on the server
-	this.sessionData = {};
+	this.slotID = slotID;
+	this.data = {};
+	this.sessionData = {}; // Data only lasts for as long as the player is on the server
 }
 
 Player.prototype = {
@@ -21,7 +20,16 @@ Player.prototype = {
 
 	getSessionData: function(key)
 	{
-		return this.sessionData[key];
+		if(key in this.sessionData)
+			return this.sessionData[key];
+		else
+			return undefined;
+	},
+
+	resetSessionData: function()
+	{
+		this.sessionData = null;
+		this.sessionData = {};
 	}
 
 }

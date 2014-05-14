@@ -6,6 +6,7 @@ var Utils = {
 
 	/**
 	 * Gets a map's machine name (mp_*) from its friendly name
+	 * 
 	 * @param  {string} mapName - Map's friendly name
 	 * @return {string}         - Null if not found
 	 */
@@ -13,7 +14,8 @@ var Utils = {
 	{
 		mapName = mapName.toLowerCase();
 
-		for(var i = 0, len = this.mapFriendlyNames.length; i < len; i++)
+		var i, len;
+		for(i = 0, len = this.mapFriendlyNames.length ; i < len ; i++)
 		{
 			if(this.mapFriendlyNames[i].toLowerCase() === mapName)
 				return this.mapMachineNames[i];
@@ -24,6 +26,7 @@ var Utils = {
 
 	/**
 	 * Generates a random number (int) between min and max
+	 * 
 	 * @param  {uint} min
 	 * @param  {uint} max
 	 * @return {uint}
@@ -35,13 +38,52 @@ var Utils = {
 
 	/**
 	 * Filters out IP from a string
+	 * 
 	 * @param  {string} haystack - The string that contains the IP
 	 * @param  {string} replace  - The string you wish to replace with the IP
 	 * @return {string}
 	 */
 	filterIP: function(haystack, replace)
 	{
-		return str.replace(/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/, replace);
+		return haystack.replace(/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/, replace);
+	},
+
+	/**
+	 * Finds only a handful of players by partial name. Converts integers to string.
+	 * This is a case insensitive search.
+	 * 
+	 * @param  {string} needle - Partial or full name.
+	 * @return {array}         - Array of slot/index IDs of each player matched. Null if
+	 *                           no players found.
+	 */
+	findPlayerIDsByPartName: function(needle)
+	{
+		// Names cannot be longer than 14 characters so why waste the time trying to
+		// look for one? ;)
+		if(needle.length > 14)
+			return null;
+
+		var found = [];
+
+		needle = needle.toLowerCase();
+
+		var i, len, player, playerName;
+		for(i = 0, len = getMaxClients() ; i < len ; i++)
+		{
+			player = getPlayerByID(i);
+			playerName = player.getName().toLowerCase();
+
+			if(playerName.search(needle) >= 0)
+				found.push(i);
+		}
+
+		// GC
+		i = null;
+		len = null;
+		player = null;
+		playerName = null;
+
+		return found.length > 0 ? found : null;
 	},
 
 
