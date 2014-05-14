@@ -15,6 +15,7 @@ bang.regCommand("ping", null, 0, cmdPing);
 
 // Commands requiring permissions
 bang.regCommand("kick", "kick", 2, cmdKick);
+bang.regCommand("mute", "mute", 2, cmdMute);
 bang.regCommand("map", "map_change", 1, cmdLoadMap);
 bang.regCommand("resetmap", "map_reset", 1, cmdResetMap);
 bang.regCommand("maps", "map_list", 0, cmdListMaps);
@@ -49,6 +50,23 @@ function cmdKick(playerID, args)
 {
 	var executor = getPlayerByID(playerID);
 	var usageMsg = "^1Usage: !kick [playerid/partial name] [reason]";
+
+	if(args.length < 3)
+		executor.sendMessage(usageMsg);
+	else
+	{
+		var targetPlayer = getPlayerByID(args[1]);
+		targetPlayer.kick(args[2]);
+	}
+}
+
+/*-----------------------------------------------*\
+|* !mute [player id] [reason]
+\*-----------------------------------------------*/
+function cmdMute(playerID, args)
+{
+	var executor = getPlayerByID(playerID);
+	var usageMsg = "^1Usage: !mute [playerid/partial name] [reason]";
 
 	if(args.length < 3)
 		executor.sendMessage(usageMsg);

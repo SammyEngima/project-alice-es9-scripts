@@ -6,6 +6,7 @@ include('/var/cod4server/scripts/commands.js');
 
 include('/var/cod4server/scripts/player.js');
 
+
 /*==============================================================================================*\
 |* Global Variables
 \*==============================================================================================*/
@@ -65,6 +66,4 @@ function onServerInit()
 	// Full out the players array with all the players
 	for(var i=getMaxClients() - 1; i>=0; i--)
 		players.push(new Player(i));
-
-	players[i].setStatus();
 }
