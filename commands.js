@@ -1,5 +1,11 @@
 // include("/var/cod4server/scripts/bang.js");
 
+/*==============================================================================================*\
+|* Command Registration
+\*==============================================================================================*/
+
+
+
 // Global vars
 var bang = new Bang();
 
@@ -13,6 +19,7 @@ bang.regCommand("me", null, 1, cmdMe);
 bang.regCommand("ping", null, 0, cmdPing);
 
 // Commands requiring permissions
+bang.regCommand("ph", "playerhistory", 1, cmdPlayerHistory);
 bang.regCommand("kick", "kick", 2, cmdKick);
 bang.regCommand("mute", null, 2, cmdMute);
 bang.regCommand("map", "map_change", 1, cmdLoadMap);
@@ -40,6 +47,14 @@ function cmdPing(playerID, args)
 {
 	var player = getPlayerByID(playerID);
 	sendMessageToAll("Pong");
+}
+
+/*-----------------------------------------------*\
+|* !ph
+\*-----------------------------------------------*/
+function cmdPlayerHistory(playerID, args)
+{
+
 }
 
 /*-----------------------------------------------*\
@@ -152,7 +167,8 @@ function cmdListMaps(playerID, args)
 \*==============================================================================================*/
 function cmdMultiplePlayers(playerID, playersFound)
 {
-	players[playerID].native.sendMessage("Multiple players found");
+	players[playerID].native.sendMessage("^1Multiple players found:");
+
 }
 
 function cmdNoPlayers(playerID)

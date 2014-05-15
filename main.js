@@ -5,14 +5,27 @@ include('/var/cod4server/scripts/player.js');
 include('/var/cod4server/scripts/utils.js');
 include("/var/cod4server/scripts/bang.js");
 
+include('/var/cod4server/scripts/playerhistory.js');
 include('/var/cod4server/scripts/commands.js');
 
 
 /*==============================================================================================*\
 |* Global Variables
 \*==============================================================================================*/
-var players = [];
+var players = []; // Holds all current players
 
+
+
+/**
+ * Called when the script starts, either from being cold booted or the server being started.
+ */
+function scriptStart()
+{
+	// Full out the players array with all the players
+	var i, len;
+	for(i = 0, len = getMaxClients(); i < len; i++)
+		players.push(new Player(i));
+}
 
 function onStatusRequest()
 {
@@ -36,6 +49,10 @@ function onPlayerJoinRequest(ip)
 
 function onPlayerDisconnect(playerID)
 {
+	// Insert the player into the history
+	PlayerHistory.addPlayer(playerID);
+
+	// Resets the player's session data
 	players[playerID].resetSessionData();
 }
 
@@ -87,10 +104,3 @@ function onServerInit()
 	scriptStart();
 }
 
-function scriptStart()
-{
-	// Full out the players array with all the players
-	var i, len;
-	for(i = 0, len = getMaxClients(); i < len; i++)
-		players.push(new Player(i));
-}
