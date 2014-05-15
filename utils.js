@@ -25,6 +25,41 @@ var Utils = {
 	},
 
 	/**
+	 * Converts a string to an integer, no fucking around here. String needs to
+	 * be a pure string represented integer.
+	 * 
+	 * Eg: "10 marbles" - null
+	 *     "20"         - 20
+	 * 
+	 * @param  {string} str - Any pure string represented integer.
+	 * @return {int}        - Null if conversion failed.
+	 */
+	toInt: function(str)
+	{
+		// Create a test case before doing a regex parse
+		var testInt = parseInt(str, 10);
+
+		// Test failed
+		if(isNaN(testInt))
+			return null;
+		// Test passed
+		else
+		{
+			// We need to pick apart the needle, parseInt() will give us false positives as
+			// well as Number() constructor. We must use Regex because JS thinks it's too
+			// clever ;D
+			var re = /^(\d+)$/g;
+			var m = re.exec(str);
+
+			// It is truely a number
+			if(m != null)
+				return parseInt(m[1]);
+		}
+
+		return null;
+	},
+
+	/**
 	 * Generates a random number (int) between min and max
 	 * 
 	 * @param  {uint} min
@@ -84,6 +119,19 @@ var Utils = {
 		playerName = null;
 
 		return found.length > 0 ? found : null;
+	},
+
+	findPlayerIDs: function(needle)
+	{
+		var playersFound = [];
+		var playerID;
+
+		if((playerID = Utils.toInt(needle)) != null)
+			playersFound[0] = playerID;
+		else
+			playersFound = this.findPlayerIDsByPartName(needle);
+
+		return playersFound;
 	},
 
 

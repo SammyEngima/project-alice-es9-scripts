@@ -42,9 +42,6 @@ function onPlayerSay(playerID, message)
 {
 	var player = players[playerID].native;
 
-	var foundPlayers = Utils.findPlayerIDsByPartName("test");
-	print(foundPlayers[0]);
-
 	// Attempt an execution of a registered command
 	var cmdResult = bang.execute(playerID, message);
 
