@@ -1,5 +1,4 @@
-include("/var/cod4server/scripts/bang.js");
-include("/var/cod4server/scripts/utils.js");
+// include("/var/cod4server/scripts/bang.js");
 
 // Global vars
 var bang = new Bang();
@@ -72,7 +71,17 @@ function cmdMute(playerID, args)
 		executor.sendMessage(usageMsg);
 	else
 	{
-		players[args[1]].setSessionData('muted', true);
+		var playersFound = Utils.findPlayerIDs(args[1]);
+
+		if(playersFound != null)
+		{
+			if(playersFound.length === 1)
+				players[playersFound[0]].setSessionData('muted', true);
+			else
+				cmdMultiplePlayers(playerID, playersFound);
+		}
+		else
+			cmdNoPlayers(playerID);
 	}
 }
 
@@ -135,4 +144,18 @@ function cmdListMaps(playerID, args)
 	
 	if(mapNameChunk != "")
 		player.sendMessage(mapNameChunk);
+}
+
+
+/*==============================================================================================*\
+|* General
+\*==============================================================================================*/
+function cmdMultiplePlayers(playerID, playersFound)
+{
+	players[playerID].native.sendMessage("Multiple players found");
+}
+
+function cmdNoPlayers(playerID)
+{
+	players[playerID].native.sendMessage("No players found");
 }

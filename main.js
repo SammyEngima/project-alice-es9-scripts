@@ -2,8 +2,9 @@
 |* Includes
 \*==============================================================================================*/
 include('/var/cod4server/scripts/player.js');
-
 include('/var/cod4server/scripts/utils.js');
+include("/var/cod4server/scripts/bang.js");
+
 include('/var/cod4server/scripts/commands.js');
 
 
@@ -72,9 +73,6 @@ function onPlayerSay(playerID, message)
 		player.sendMessage("^1No known command");
 	else if(cmdResult == 4)
 		player.sendMessage("^1You do not have permissions to execute this command");
-
-	// GC
-	player = null;
 }
 
 function onScriptColdBoot()
