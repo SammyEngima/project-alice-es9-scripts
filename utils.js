@@ -155,6 +155,19 @@ var Utils = {
 		return null;
 	},
 
+	/**
+	 * Adds a (custom) map on to the map stacks, so getMapMachineName
+	 * can find them.
+	 * 
+	 * @param  {string} machineName  - Map's machine name, map nam starting with mp_.
+	 * @param  {string} friendlyName - Human readable name of the map.
+	 */
+	pushMap: function(machineName, friendlyName)
+	{
+		this.mapMachineNames.push(machineName);
+		this.mapFriendlyNames.push(friendlyName);
+	},
+
 
 	/*==============================================================================================*\
 	|* Variables
