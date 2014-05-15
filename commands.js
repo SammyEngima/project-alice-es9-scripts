@@ -50,7 +50,7 @@ function cmdPing(playerID, args)
 }
 
 /*-----------------------------------------------*\
-|* !ph
+|* !ph [(page)]
 \*-----------------------------------------------*/
 function cmdPlayerHistory(playerID, args)
 {
