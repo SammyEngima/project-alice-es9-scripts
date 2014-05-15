@@ -5,26 +5,6 @@ var Utils = {
 	\*==============================================================================================*/
 
 	/**
-	 * Gets a map's machine name (mp_*) from its friendly name
-	 * 
-	 * @param  {string} mapName - Map's friendly name
-	 * @return {string}         - Null if not found
-	 */
-	getMapMachineName: function(mapName)
-	{
-		mapName = mapName.toLowerCase();
-
-		var i, len;
-		for(i = 0, len = this.mapFriendlyNames.length ; i < len ; i++)
-		{
-			if(this.mapFriendlyNames[i].toLowerCase() === mapName)
-				return this.mapMachineNames[i];
-		}
-
-		return null;
-	},
-
-	/**
 	 * Converts a string to an integer, no fucking around here. String needs to
 	 * be a pure string represented integer.
 	 * 
@@ -56,6 +36,9 @@ var Utils = {
 				return parseInt(m[1]);
 		}
 
+		// GC
+		testInt = null;
+
 		return null;
 	},
 
@@ -83,9 +66,14 @@ var Utils = {
 		return haystack.replace(/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/, replace);
 	},
 
+
+
+	/*---------------------------------------------------------------------*\
+	|* Player Search
+	\*---------------------------------------------------------------------*/
+
 	/**
-	 * Finds only a handful of players by partial name. Converts integers to string.
-	 * This is a case insensitive search.
+	 * Finds only a handful of players by partial name. This is a case insensitive search.
 	 * 
 	 * @param  {string} needle - Partial or full name.
 	 * @return {array}         - Array of slot/index IDs of each player matched. Null if
@@ -121,6 +109,13 @@ var Utils = {
 		return found.length > 0 ? found : null;
 	},
 
+	/**
+	 * Finds a player on the server. Takes both player ID and partial name
+	 * notational strings.
+	 * 
+	 * @param  {[type]} needle [description]
+	 * @return {[type]}        [description]
+	 */
 	findPlayerIDs: function(needle)
 	{
 		var playersFound = [];
@@ -132,6 +127,32 @@ var Utils = {
 			playersFound = this.findPlayerIDsByPartName(needle);
 
 		return playersFound;
+	},
+
+
+
+	/*---------------------------------------------------------------------*\
+	|* Map Manipulation
+	\*---------------------------------------------------------------------*/
+
+	/**
+	 * Gets a map's machine name (mp_*) from its friendly name.
+	 * 
+	 * @param  {string} mapName - Map's friendly name.
+	 * @return {string}         - Null if not found.
+	 */
+	getMapMachineName: function(mapName)
+	{
+		mapName = mapName.toLowerCase();
+
+		var i, len;
+		for(i = 0, len = this.mapFriendlyNames.length ; i < len ; i++)
+		{
+			if(this.mapFriendlyNames[i].toLowerCase() === mapName)
+				return this.mapMachineNames[i];
+		}
+
+		return null;
 	},
 
 
