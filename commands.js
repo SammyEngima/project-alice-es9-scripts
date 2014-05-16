@@ -19,7 +19,8 @@ bang.regCommand("me", null, 1, cmdMe);
 bang.regCommand("ping", null, 0, cmdPing);
 
 // Commands requiring permissions
-bang.regCommand("ph", "playerhistory", 1, cmdPlayerHistory);
+bang.regCommand("p", null, 1, cmdPlayerList);
+bang.regCommand("ph", null, 1, cmdPlayerHistory);
 bang.regCommand("kick", "kick", 2, cmdKick);
 bang.regCommand("mute", null, 2, cmdMute);
 bang.regCommand("map", "map_change", 1, cmdLoadMap);
@@ -51,10 +52,43 @@ function cmdPing(playerID, args)
 
 /*-----------------------------------------------*\
 |* !ph [(page)]
+|*
+|* Checks player history.
 \*-----------------------------------------------*/
 function cmdPlayerHistory(playerID, args)
 {
+	var player = players[playerID];
+	playerHistory = PlayerHistory.getPlayers();
 
+	if(playerHistory.length === 0)
+	{
+		player.sendMessage("^1No players in history");
+		return;
+	}
+
+	player.sendMessage("^5Player history");
+	player.sendMessage("---------------------------");
+
+	var i, hist;
+	for(i = 0, hist = playerHistory.length; i < hist; i++)
+	{
+		player.sendMessage(i + " -[" + playerHistory[i].name + " | " + playerHistory[i].ip + "]");
+	}
+}
+
+/*-----------------------------------------------*\
+|* !p [(page)]
+\*-----------------------------------------------*/
+function cmdPlayerList(playerID, args)
+{
+	var player = players[playerID];
+
+	var i, len;
+	for(i = 0, len = players.length; i < len; i++)
+	{
+		if(players[i].isConnected())
+			player.sendMessage(players[i].toColorString());
+	}
 }
 
 /*-----------------------------------------------*\
@@ -165,11 +199,6 @@ function cmdListMaps(playerID, args)
 /*==============================================================================================*\
 |* General
 \*==============================================================================================*/
-function cmdMultiplePlayers(playerID, playersFound)
-{
-	players[playerID].native.sendMessage("^1Multiple players found:");
-
-}
 
 function cmdNoPlayers(playerID)
 {

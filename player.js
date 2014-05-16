@@ -5,13 +5,42 @@ function Player(slotID) {
 
 	this.data = {};
 	this.sessionData = {}; // Data only lasts for as long as the player is on the server
+
+	// Statuses
+	this.nameBanned   = false;
+	this.ipBanescaped = false;
 }
 
 Player.prototype = {
 
+	toString: function()
+	{
+		return this.slotID + " -[" + this.getName() + " | " + this.getIP() + "]";
+	},
+
+	toColorString: function()
+	{
+		var str = "^5" + this.slotID + " -[";
+
+		if(this.nameBanned)
+			str += "^1" + this.getName();
+		else
+			str += "^2" + this.getName();
+
+		str += " ^5| ^2" + this.getIP() + "^5]";
+
+		return str;
+	},
+
+
 	// **************************************************************************
 	// NATIVE WRAPPERS
 	// **************************************************************************
+
+	isConnected: function()
+	{
+		return this.native.isConnected();
+	},
 
 	getName: function()
 	{
@@ -27,6 +56,11 @@ Player.prototype = {
 	{
 		// return this.native.getGUID();
 		return "-";
+	},
+
+	sendMessage: function(message)
+	{
+		this.native.sendMessage(message);
 	},
 
 
